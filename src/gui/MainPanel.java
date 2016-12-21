@@ -5,6 +5,9 @@ import java.awt.Panel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import controller.ButtonListener;
+
 import java.awt.Event;
 
 public class MainPanel extends Panel {
@@ -14,6 +17,7 @@ public class MainPanel extends Panel {
 	private JTextField mTextField1;
 	MainPanel(){
 		setUI();
+		setListener();
 	}
 	private void setUI(){
 		
@@ -31,4 +35,15 @@ public class MainPanel extends Panel {
 		this.add(mTextField1);
 		
 	}
+	
+	private void setListener(){
+		ButtonListener buttonListener = new ButtonListener(this);
+		mButton1.addActionListener(buttonListener);
+	}
+	
+	public JButton getButton(){
+		return mButton1;
+	
+	}
+	
 }
