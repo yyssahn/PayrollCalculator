@@ -39,6 +39,7 @@ public class MainPanel extends Panel {
 	
 	public MainPanel(){
 		this.setLayout(new FlowLayout());
+		this.setPreferredSize(new Dimension(700,350));
 		setUI();
 		setListener();
 	}
@@ -60,7 +61,7 @@ public class MainPanel extends Panel {
 		this.add(mLabel1);
 		
 		mButton1 = new JButton("Kill me");
-		mButton1.setPreferredSize(new Dimension(20,20));
+		mButton1.setPreferredSize(new Dimension(300,300));
 		this.add(mButton1);
 		
 		

@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.Arrays;
@@ -16,13 +17,14 @@ public class MainPage extends JFrame {
 	 }
 	 
 	 private void initialize(){
-		 this.setSize(400,400);
+		 this.setSize(700,1000);
+		 this.setLayout(new  BorderLayout());
 		 this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		 this.setResizable(false);
 		 this.setTitle("2017 BC Payroll Calculator");
 		 MainPanel mMainPanel = new MainPanel();
-		 this.add(mMainPanel);
-
+		 this.add(mMainPanel,BorderLayout.PAGE_START);
+		 
 		 this.setVisible(true);
 	 }
 	 
