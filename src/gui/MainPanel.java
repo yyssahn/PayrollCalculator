@@ -1,5 +1,9 @@
 package gui;
 
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Panel;
 
 import javax.swing.BorderFactory;
@@ -11,40 +15,59 @@ import javax.swing.JList;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerListModel;
 import javax.swing.border.Border;
 
 import controller.ButtonListener;
 
 import java.awt.Event;
+import java.util.ArrayList;
 
 public class MainPanel extends Panel {
 	
-	private JLabel mLabel1;
+	private JLabel mLabel1,paymentSpinnerLabel;
 	private JButton mButton1;
 	private JTextField mTextField1;
 	private JRadioButton radio1, radio2, radio3, radio4;
 	private JSlider slider;
 	private JList list;
+	private JSpinner paymentSpinner;
 	DefaultListModel defList= new DefaultListModel();
-	MainPanel(){
+	
+	public MainPanel(){
+		this.setLayout(new FlowLayout());
 		setUI();
 		setListener();
 	}
 	private void setUI(){
 		
+		paymentSpinnerLabel = new JLabel("Number of Payments in a year");
+		this.add(paymentSpinnerLabel);
+		
+		String[] templist = {"52 Payments in year","26 Payments in year","12 Payments in year"};
+		SpinnerListModel model = new SpinnerListModel(templist);
+		paymentSpinner = new JSpinner(model);
+		paymentSpinner.enableInputMethods(false);
+		paymentSpinner.setEditor(new JSpinner.DefaultEditor(paymentSpinner));
+		this.add(paymentSpinner);
+		
 		
 		mLabel1 = new JLabel("Tell me something");
+		System.out.println(mLabel1.getHeight());
 		this.add(mLabel1);
 		
-		mButton1 = new JButton("Send");
+		mButton1 = new JButton("Kill me");
+		mButton1.setPreferredSize(new Dimension(20,20));
 		this.add(mButton1);
 		
 		
 		mTextField1 = new JTextField("0.00",19);
-		mTextField1.requestFocus();
 		this.add(mTextField1);
+		
+		mTextField1.requestFocus();
 		
 		radio1 = new JRadioButton("1");
 		radio2 = new JRadioButton("2");
@@ -75,7 +98,7 @@ public class MainPanel extends Panel {
 		
 		String[] iList = {"aaa","bbbb","Ccc","ddd"};
 		list = new JList(iList);
-		list.setFixedCellHeight(30);
+		list.setFixedCellHeight(0);
 		list.setFixedCellWidth(250);
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		list.setVisibleRowCount(3);;
