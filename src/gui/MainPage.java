@@ -17,7 +17,7 @@ public class MainPage extends JFrame {
 	 }
 	 
 	 private void initialize(){
-		 this.setSize(700,1000);
+		 this.setSize(600,1000);
 		 this.setLayout(new  BorderLayout());
 		 this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		 this.setResizable(false);
