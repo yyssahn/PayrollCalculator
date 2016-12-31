@@ -17,13 +17,21 @@ public class MainPage extends JFrame {
 	 }
 	 
 	 private void initialize(){
-		 this.setSize(600,1000);
+		 this.setSize(1024,768);
 		 this.setLayout(new  BorderLayout());
 		 this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		 this.setResizable(false);
 		 this.setTitle("2017 BC Payroll Calculator");
+		 
 		 MainPanel mMainPanel = new MainPanel();
-		 this.add(mMainPanel,BorderLayout.PAGE_START);
+		 this.add(mMainPanel,BorderLayout.CENTER);
+		 
+		 ClaimPanel ClaimPanel = new ClaimPanel();
+		 this.add(ClaimPanel, BorderLayout.LINE_START);
+		 
+
+		 EiCppPanel ClaimPanel2 = new EiCppPanel();
+		 this.add(ClaimPanel2, BorderLayout.LINE_END);
 		 
 		 this.setVisible(true);
 	 }
