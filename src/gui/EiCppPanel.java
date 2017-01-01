@@ -7,12 +7,16 @@ import java.awt.Panel;
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+import controller.EIStateListener;
 
 public class EiCppPanel extends Panel{
 
 	
-	private JLabel eiExemptLabel, cppExemptLabel;
-	private JCheckBox eiExemptCheckBox, cppexemptCheckBox;
+	private JLabel eiExemptLabel, cppExemptLabel, eiMaxLabel, cppMaxLabel, eiTextFieldLabel, cppTextFieldLabel;
+	private JCheckBox eiExemptCheckBox, eiMaxCheckBox, cppExemptCheckBox, cppMaxCheckBox;
+	private JTextField eiTextField, cppTextField;
 
 	
 	public EiCppPanel(){
@@ -31,7 +35,7 @@ public class EiCppPanel extends Panel{
 		eiExemptLabel.setHorizontalAlignment(JLabel.LEFT);
 		this.add(eiExemptLabel);
 		eiExemptCheckBox = new JCheckBox();
-
+		eiExemptCheckBox.addItemListener(new EIStateListener(this));
 		
 		
 		this.add(eiExemptCheckBox);
@@ -47,5 +51,12 @@ public class EiCppPanel extends Panel{
 	}
 	private void setListener(){
 		
+	}
+	public JCheckBox geteiCheckBox(){
+		return eiExemptCheckBox;
+	}
+	
+	public JCheckBox getCPPCheckBox(){
+		return cppExemptCheckBox;
 	}
 }
