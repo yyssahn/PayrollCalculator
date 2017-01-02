@@ -53,7 +53,7 @@ public class EiCppPanel extends Panel{
 		eiMaxCheckBox.setPreferredSize(new Dimension(120,20));
 		this.add(eiMaxCheckBox);
 		
-		eiTextFieldLabel = new JLabel("EI input");
+		eiTextFieldLabel = new JLabel("EI paid so far");
 		eiTextFieldLabel.setPreferredSize(new Dimension(120,20));
 		eiTextFieldLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,10));
 		eiTextFieldLabel.setHorizontalAlignment(JLabel.LEFT);
@@ -70,8 +70,32 @@ public class EiCppPanel extends Panel{
 		cppExemptLabel.setPreferredSize(new Dimension(120,20));
 		cppExemptLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,10));
 		cppExemptLabel.setHorizontalAlignment(JLabel.LEFT);
-		
 		this.add(cppExemptLabel);
+		cppExemptCheckBox = new JCheckBox();
+		cppExemptCheckBox.setPreferredSize(new Dimension(120,20));
+		cppExemptCheckBox.addItemListener(new EIStateListener(this));
+		this.add(cppExemptCheckBox);
+		
+		cppMaxLabel = new JLabel("CPP max reached?");
+		cppMaxLabel.setPreferredSize(new Dimension(120,20));
+		cppMaxLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,10));
+		cppMaxLabel.setHorizontalAlignment(JLabel.LEFT);
+		this.add(cppMaxLabel);
+		cppMaxCheckBox = new JCheckBox();
+		cppMaxCheckBox.addItemListener(new EIStateListener(this));
+		cppMaxCheckBox.setPreferredSize(new Dimension(120,20));
+		this.add(cppMaxCheckBox);
+		
+		cppTextFieldLabel = new JLabel("CPP paid so far");
+		cppTextFieldLabel.setPreferredSize(new Dimension(120,20));
+		cppTextFieldLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,10));
+		cppTextFieldLabel.setHorizontalAlignment(JLabel.LEFT);
+		this.add(cppTextFieldLabel);
+		
+		cppTextField = getCurrencyTextField();
+		cppTextField.setPreferredSize(new Dimension(120,20));
+		cppTextField.setValue(0.00);
+		this.add(cppTextField);
 	}
 	private void setListener(){
 		
@@ -117,19 +141,36 @@ public class EiCppPanel extends Panel{
 		eiTextField.setValue(0.00);
 		eiTextField.setEnabled(true);
 	}
-	public void setCppExemptCheckBox(JCheckBox cppExemptCheckBox) {
-		this.cppExemptCheckBox = cppExemptCheckBox;
+	
+	public void disableCppExemptCheckBox() {
+		cppExemptCheckBox.setSelected(false);
+		cppExemptCheckBox.setEnabled(false);
+	}
+	public void enableCppExemptCheckBox(){
+		cppExemptCheckBox.setSelected(false);
+		cppExemptCheckBox.setEnabled(true);
 	}
 
+	public void disableCppMaxCheckBox() {
+		cppMaxCheckBox.setSelected(false);
+		cppMaxCheckBox.setEnabled(false);
+	}
+	public void enableCppMaxCheckBox(){
+		cppMaxCheckBox.setSelected(false);
+		cppMaxCheckBox.setEnabled(true);
+	}
 	public JCheckBox getCppMaxCheckBox() {
 		return cppMaxCheckBox;
 	}
-
-	public void setCppMaxCheckBox(JCheckBox cppMaxCheckBox) {
-		this.cppMaxCheckBox = cppMaxCheckBox;
+	
+	public void disableCppTextField() {
+		cppTextField.setValue(0.00);
+		cppTextField.setEnabled(false);
 	}
-
-
+	public void enableCppTextField(){
+		cppTextField.setValue(0.00);
+		cppTextField.setEnabled(true);
+	}
 
 	public JFormattedTextField getCppTextField() {
 		return cppTextField;

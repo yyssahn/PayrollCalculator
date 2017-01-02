@@ -27,10 +27,34 @@ public class EIStateListener implements ItemListener {
 				mPanel.enableEiMaxCheckBox();
 				mPanel.enableEiTextField();
 			}
-		
+		}
+		if (source == mPanel.getEiMaxCheckBox()){
+			if (source.isSelected()){
+				mPanel.disableEiExemptCheckBox();
+				mPanel.disableEiTextField();
+			}else{
+				mPanel.enableEiExemptCheckBox();
+				mPanel.enableEiTextField();
+			}
+			
 		}
 		if (source == mPanel.getCppExemptCheckBox()){
-			System.out.println(source.isSelected());
+			if (source.isSelected()){
+				mPanel.disableCppMaxCheckBox();
+				mPanel.disableCppTextField();
+			}else{
+				mPanel.enableCppMaxCheckBox();
+				mPanel.enableCppTextField();
+			}
+		}
+		if (source == mPanel.getCppMaxCheckBox()){
+			if (source.isSelected()){
+				mPanel.disableCppExemptCheckBox();
+				mPanel.disableCppTextField();
+			}else{
+				mPanel.enableCppExemptCheckBox();
+				mPanel.enableCppTextField();
+			}
 		}
 	}
 
