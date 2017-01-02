@@ -19,10 +19,17 @@ public class EIStateListener implements ItemListener {
 	public void itemStateChanged(ItemEvent e) {
 		JCheckBox source =(JCheckBox) e.getItemSelectable();
 		// TODO Auto-generated method stub
-		if (source == mPanel.geteiCheckBox()){
-			System.out.println(source.isSelected());
+		if (source == mPanel.getEiExemptCheckBox()){
+			if (source.isSelected()){
+				mPanel.disableEiMaxCheckBox();
+				mPanel.disableEiTextField();
+			}else{
+				mPanel.enableEiMaxCheckBox();
+				mPanel.enableEiTextField();
+			}
+		
 		}
-		if (source == mPanel.getCPPCheckBox()){
+		if (source == mPanel.getCppExemptCheckBox()){
 			System.out.println(source.isSelected());
 		}
 	}
