@@ -23,7 +23,7 @@ import javax.swing.SpinnerListModel;
 import javax.swing.border.Border;
 import javax.swing.text.NumberFormatter;
 
-import controller.ButtonListener;
+import controller.CalculatorController;
 
 import java.awt.Event;
 import java.text.NumberFormat;
@@ -33,7 +33,7 @@ import java.util.Locale;
 public class MainPanel extends Panel {
 	
 	private JLabel mLabel1,paymentSpinnerLabel, grossPayLabel, bonusPayLabel, rrspPayLabel, rppPayLabel, prppPayLabel, unionPayLabel, otherPayLabel, alimonyPayLabel;
-	private JButton mButton1;
+	private JButton calculateButton;
 	private JTextField mTextField1;
 	private JFormattedTextField grossPay, bonusPay, rrspPay, rppPay, prppPay, unionPay, otherPay, alimonyPay;
 	private JRadioButton radio1, radio2, radio3, radio4;
@@ -46,7 +46,7 @@ public class MainPanel extends Panel {
 		this.setLayout(new FlowLayout());
 		this.setPreferredSize(new Dimension(700,350));
 		setUI();
-		setListener();
+		//setListener();
 	}
 	private void setUI(){
 		
@@ -145,7 +145,13 @@ public class MainPanel extends Panel {
 		alimonyPay.setPreferredSize(new Dimension(280,20));
 		this.add(alimonyPay);
 		
-
+		
+		calculateButton = new JButton("Calculate Payroll");
+		calculateButton.setPreferredSize(new Dimension(250,20));
+		this.add(calculateButton);
+		
+		
+		/*
 		mLabel1 = new JLabel("Tell me something");
 				
 		this.add(mLabel1);
@@ -195,16 +201,19 @@ public class MainPanel extends Panel {
 		list.setVisibleRowCount(3);;
 		JScrollPane scroller = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	     // All the methods for lists
-		        /*
+		        
 		         * getSelectedIndex(): returns the index for the first selected item
 		         * getSelectedIndexes(): returns every selection in a list
 		         * getSelectedValue(): returns the value of the first selected
 		         * getSelectedValues(): returns an array of all values
 		         * isSelectedIndex(): returns true if index is selected
-		         */
-
+		         
+		
 		this.add(list);
 		this.add(scroller);
+		*/
+		
+		
 		
 		
 	}
@@ -249,7 +258,7 @@ public class MainPanel extends Panel {
 		paymentSpinner.setEditor(new JSpinner.DefaultEditor(paymentSpinner));
 		this.add(paymentSpinner);
 	}
-	
+/*	
 	private void setListener(){
 		ButtonListener buttonListener = new ButtonListener(this);
 		mButton1.addActionListener(buttonListener);
@@ -259,7 +268,7 @@ public class MainPanel extends Panel {
 		return mButton1;
 	
 	}
-	
+*/	
 	private JFormattedTextField getCurrencyTextField(){
 		NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
 		format.setMaximumFractionDigits(2);
@@ -271,5 +280,10 @@ public class MainPanel extends Panel {
 		return new JFormattedTextField(formatter);
 	}
 
+	public void setListener(MainPanel main, EiCppPanel eicpp, ClaimPanel claim){
+		CalculatorController controller = new CalculatorController(main, eicpp, claim);
+		
+		calculateButton.addActionListener(controller);
+	}
 	
 }

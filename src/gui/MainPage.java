@@ -32,7 +32,7 @@ public class MainPage extends JFrame {
 
 		 EiCppPanel ClaimPanel2 = new EiCppPanel();
 		 this.add(ClaimPanel2, BorderLayout.LINE_END);
-		 
+		 mMainPanel.setListener(mMainPanel, ClaimPanel2, ClaimPanel);
 		 this.setVisible(true);
 	 }
 	 
