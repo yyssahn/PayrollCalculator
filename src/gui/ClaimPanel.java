@@ -8,11 +8,14 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerListModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class ClaimPanel extends Panel {
 	private JLabel federalClaimSpinnerLabel, provincialClaimSpinnerLabel;
 	private JSpinner federalClaimSpinner, provincialClaimSpinner;
-	
+	private int federalIndex = 0;
+	private int provincialIndex = 0;
 	public ClaimPanel(){
 		
 		this.setLayout(new FlowLayout());
@@ -62,6 +65,24 @@ public class ClaimPanel extends Panel {
 		provincialClaimSpinner.setPreferredSize(new Dimension(250,20));
 		provincialClaimSpinner.enableInputMethods(false);
 		provincialClaimSpinner.setEditor(new JSpinner.DefaultEditor(provincialClaimSpinner));
+		provincialClaimSpinner.addChangeListener(new ChangeListener(){
+
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				// TODO Auto-generated method stub
+				System.out.println(provincialModel.getValue());
+				int index= 0;
+				for(Object o : provincialModel.getList()){
+					if (o.equals(provincialClaimSpinner.getValue())){
+						
+						break;
+					}
+					index++;
+				}
+				federalIndex = index;
+				System.out.println(federalIndex);
+			}
+		});
 		this.add(provincialClaimSpinner);
 		
 		
