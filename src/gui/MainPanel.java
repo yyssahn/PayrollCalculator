@@ -21,6 +21,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerListModel;
 import javax.swing.border.Border;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.text.NumberFormatter;
 
 import controller.CalculatorController;
@@ -40,6 +42,7 @@ public class MainPanel extends Panel {
 	private JSlider slider;
 	private JList list;
 	private JSpinner paymentSpinner;
+	private int paymentIndex;
 	DefaultListModel defList= new DefaultListModel();
 	
 	public MainPanel(){
@@ -248,7 +251,7 @@ public class MainPanel extends Panel {
 		paymentSpinnerLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,10));
 		paymentSpinnerLabel.setHorizontalAlignment(JLabel.LEFT);
 		this.add(paymentSpinnerLabel);
-		
+		paymentIndex=0;
 		String[] templist = {"52 Payments in year","26 Payments in year","12 Payments in year"};
 		SpinnerListModel model = new SpinnerListModel(templist);
 		
@@ -256,6 +259,22 @@ public class MainPanel extends Panel {
 		paymentSpinner.setPreferredSize(new Dimension(280,20));
 		paymentSpinner.enableInputMethods(false);
 		paymentSpinner.setEditor(new JSpinner.DefaultEditor(paymentSpinner));
+		paymentSpinner.addChangeListener(new ChangeListener(){
+
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				// TODO Auto-generated method stub
+				
+				int index= 0;
+				for(Object o : model.getList()){
+					if (o.equals(paymentSpinner.getValue())){
+						break;
+					}
+					index++;
+				}
+				paymentIndex = index;
+			}
+		});
 		this.add(paymentSpinner);
 	}
 /*	
@@ -288,5 +307,7 @@ public class MainPanel extends Panel {
 		
 		calculateButton.addActionListener(controller);
 	}
-	
+	public int getPaymentIndex(){
+		return this.paymentIndex;
+	}
 }

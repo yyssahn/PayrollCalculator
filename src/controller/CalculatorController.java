@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 
 import constants.BCClaimCodes;
 import constants.FederalClaimCodes;
+import constants.PaymentNumber;
 
 public class CalculatorController implements ActionListener{
 	MainPanel mainPanel;
@@ -19,6 +20,8 @@ public class CalculatorController implements ActionListener{
 
 	FederalClaimCodes federalCode;
 	BCClaimCodes provincialCode;
+	
+	PaymentNumber numPayment;
 	public CalculatorController(MainPanel main, EiCppPanel eicpp, ClaimPanel claim){
 		mainPanel = main;
 		eiCppPanel = eicpp;
@@ -26,6 +29,7 @@ public class CalculatorController implements ActionListener{
 
 		federalCode = FederalClaimCodes.ZERO;
 		provincialCode = BCClaimCodes.ZERO;
+		numPayment = PaymentNumber.WEEKLY;
 	}
 	@Override
 	public void actionPerformed(ActionEvent event) {
@@ -33,9 +37,7 @@ public class CalculatorController implements ActionListener{
 		if (event.getSource() == mainPanel.getCalculateButton()){
 			federalCode = federalCode.getCode(claimPanel.getFederalIndex());
 			provincialCode = provincialCode.getCode(claimPanel.getProvincialIndex());
-			
-			System.out.println(federalCode.getK1());
-			System.out.println(provincialCode.getK1());
+			numPayment = numPayment.getPaymentNumber(mainPanel.getPaymentIndex());
 			
 			
 
@@ -43,4 +45,10 @@ public class CalculatorController implements ActionListener{
 	}
 
 	
+	private double getTaxableIncome(){
+		return 0.0;
+	}
+	private double getAnnualTaxableIncome(){
+		return 0.0;
+	}
 }
