@@ -310,4 +310,14 @@ public class MainPanel extends Panel {
 	public int getPaymentIndex(){
 		return this.paymentIndex;
 	}
+	
+	public double getGrossPay(){
+		return (double) this.grossPay.getValue();
+	}
+	public double getDeductables(){
+		double totalAmount;
+		totalAmount = (double) this.rppPay.getValue() + (double) this.prppPay.getValue() + (double) this.rrspPay.getValue()
+		+ (double) this.unionPay.getValue();
+		return totalAmount;
+	}
 }

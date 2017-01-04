@@ -38,12 +38,13 @@ public class CalculatorController implements ActionListener{
 			federalCode = federalCode.getCode(claimPanel.getFederalIndex());
 			provincialCode = provincialCode.getCode(claimPanel.getProvincialIndex());
 			numPayment = numPayment.getPaymentNumber(mainPanel.getPaymentIndex());
-			
-			
+			double grossIncome = mainPanel.getGrossPay();
+			double deductable = mainPanel.getDeductables();
+			System.out.println(deductable);
 
 		}
 	}
-
+	
 	
 	private double getTaxableIncome(){
 		return 0.0;
