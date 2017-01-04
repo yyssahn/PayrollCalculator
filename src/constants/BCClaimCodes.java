@@ -28,14 +28,6 @@ public enum BCClaimCodes {
 	public double getK1(){
 		return this.k1amount;
 	}
-	
-	public BCClaimCodes getCode(double amount){
-		for (BCClaimCodes code : BCClaimCodes.values()){
-			
-		}
-		return BCClaimCodes.EIGHT;
-	}
-	
 	public BCClaimCodes getCode(int index){
 		switch(index){
 		case 0:	return ZERO;
