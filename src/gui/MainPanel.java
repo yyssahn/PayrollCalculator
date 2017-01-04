@@ -279,6 +279,9 @@ public class MainPanel extends Panel {
 		formatter.setAllowsInvalid(false);
 		return new JFormattedTextField(formatter);
 	}
+	public JButton getCalculateButton(){
+		return this.calculateButton;
+	}
 
 	public void setListener(MainPanel main, EiCppPanel eicpp, ClaimPanel claim){
 		CalculatorController controller = new CalculatorController(main, eicpp, claim);

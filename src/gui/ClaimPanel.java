@@ -42,12 +42,29 @@ public class ClaimPanel extends Panel {
 		String[] templist = {"No Claim amount(Claim Code 0","Minimum - 11,635.00 (Claim code 1)","11,635.01 - 13,858.00 (Claim code 2)","13,858.01 - 16,081.00 (Claim code 3)",
 				"16,081.01 - 18,304.00 (Claim code 4)","18,304.01 - 20,527.00 (Claim code 5)","20,527.01 - 22,750.00 (Claim code 6)","22,750.01 - 24,973.00 (Claim code 7)","24,973.01 - 27,196.00 (Claim code 8)"
 				, "27,196.01 - 29,419.00 (Claim code 9)","29,419.01 - 31,642.00 (Claim code 10)","No tax (Claim code E)"};
-		SpinnerListModel model = new SpinnerListModel(templist);
+		SpinnerListModel federalModel = new SpinnerListModel(templist);
 		
-		federalClaimSpinner = new JSpinner(model);
+		federalClaimSpinner = new JSpinner(federalModel);
 		federalClaimSpinner.setPreferredSize(new Dimension(250,20));
 		federalClaimSpinner.enableInputMethods(false);
 		federalClaimSpinner.setEditor(new JSpinner.DefaultEditor(federalClaimSpinner));
+		federalClaimSpinner.addChangeListener(new ChangeListener(){
+
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				// TODO Auto-generated method stub
+				
+				int index= 0;
+				for(Object o : federalModel.getList()){
+					if (o.equals(provincialClaimSpinner.getValue())){
+						break;
+					}
+					index++;
+				}
+				federalIndex = index;
+				System.out.println(federalIndex);
+			}
+		});
 		this.add(federalClaimSpinner);
 		
 		provincialClaimSpinnerLabel = new JLabel("<html>Total Claim amount from<br/>employee's Provincial Form TD1</html>");
@@ -79,8 +96,8 @@ public class ClaimPanel extends Panel {
 					}
 					index++;
 				}
-				federalIndex = index;
-				System.out.println(federalIndex);
+				provincialIndex = index;
+				System.out.println(provincialIndex);
 			}
 		});
 		this.add(provincialClaimSpinner);
