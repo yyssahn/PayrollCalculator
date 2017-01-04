@@ -16,12 +16,14 @@ public class CalculatorController implements ActionListener{
 	MainPanel mainPanel;
 	EiCppPanel eiCppPanel;
 	ClaimPanel claimPanel;
+
 	FederalClaimCodes federalCode;
 	BCClaimCodes provincialCode;
 	public CalculatorController(MainPanel main, EiCppPanel eicpp, ClaimPanel claim){
 		mainPanel = main;
 		eiCppPanel = eicpp;
 		claimPanel = claim;
+
 		federalCode = FederalClaimCodes.ZERO;
 		provincialCode = BCClaimCodes.ZERO;
 	}
@@ -29,8 +31,16 @@ public class CalculatorController implements ActionListener{
 	public void actionPerformed(ActionEvent event) {
 		// TODO Auto-generated method stub
 		if (event.getSource() == mainPanel.getCalculateButton()){
-			System.out.printLn()
+			federalCode = federalCode.getCode(claimPanel.getFederalIndex());
+			provincialCode = provincialCode.getCode(claimPanel.getProvincialIndex());
+			
+			System.out.println(federalCode.getK1());
+			System.out.println(provincialCode.getK1());
+			
+			
+
 		}
 	}
 
+	
 }

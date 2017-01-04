@@ -56,13 +56,12 @@ public class ClaimPanel extends Panel {
 				
 				int index= 0;
 				for(Object o : federalModel.getList()){
-					if (o.equals(provincialClaimSpinner.getValue())){
+					if (o.equals(federalClaimSpinner.getValue())){
 						break;
 					}
 					index++;
 				}
 				federalIndex = index;
-				System.out.println(federalIndex);
 			}
 		});
 		this.add(federalClaimSpinner);
@@ -87,7 +86,6 @@ public class ClaimPanel extends Panel {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
 				// TODO Auto-generated method stub
-				System.out.println(provincialModel.getValue());
 				int index= 0;
 				for(Object o : provincialModel.getList()){
 					if (o.equals(provincialClaimSpinner.getValue())){
@@ -97,12 +95,17 @@ public class ClaimPanel extends Panel {
 					index++;
 				}
 				provincialIndex = index;
-				System.out.println(provincialIndex);
 			}
 		});
 		this.add(provincialClaimSpinner);
 		
 		
 	}
-	
+	public int getFederalIndex(){
+		return this.federalIndex;
+		
+	}
+	public int getProvincialIndex(){
+		return this.provincialIndex;
+	}
 }
