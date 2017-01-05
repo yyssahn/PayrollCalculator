@@ -49,7 +49,7 @@ public class CalculatorController implements ActionListener{
 	private double getTaxableIncome(){
 		return 0.0;
 	}
-	private double getAnnualTaxableIncome(){
-		return 0.0;
+	private double getAnnualTaxableIncome(double income){
+		return numPayment.getNumber() * income;
 	}
 }
