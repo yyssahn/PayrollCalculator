@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 
 import constants.BCClaimCodes;
 import constants.FederalClaimCodes;
+import constants.FederalTaxConstants;
 import constants.PaymentNumber;
 
 public class CalculatorController implements ActionListener{
@@ -20,7 +21,7 @@ public class CalculatorController implements ActionListener{
 
 	FederalClaimCodes federalCode;
 	BCClaimCodes provincialCode;
-	
+	FederalTaxConstants federalTax;
 	PaymentNumber numPayment;
 	public CalculatorController(MainPanel main, EiCppPanel eicpp, ClaimPanel claim){
 		mainPanel = main;
@@ -30,6 +31,7 @@ public class CalculatorController implements ActionListener{
 		federalCode = FederalClaimCodes.ZERO;
 		provincialCode = BCClaimCodes.ZERO;
 		numPayment = PaymentNumber.WEEKLY;
+		federalTax = FederalTaxConstants.ZERO;
 	}
 	@Override
 	public void actionPerformed(ActionEvent event) {
@@ -41,6 +43,8 @@ public class CalculatorController implements ActionListener{
 			double grossIncome = mainPanel.getGrossPay();
 			double deductable = mainPanel.getDeductables();
 			System.out.println(deductable);
+			double federalTax;
+			federalTax = getFederalTax(getAnnualTaxableIncome(grossIncome)); 
 
 		}
 	}
@@ -52,4 +56,29 @@ public class CalculatorController implements ActionListener{
 	private double getAnnualTaxableIncome(double income){
 		return numPayment.getNumber() * income;
 	}
+	
+	private double getFederalTax(double income){
+		federalTax = federalTax.getConstant(income);
+		double totalTax = (income * federalTax.getRate()) - federalTax.getConstant();
+		
+		
+		
+		return totalTax;
+	}
+	
+	private double getEI(double income){
+		double ei = 0.00;
+		
+		return ei;
+	}
+	
+	private double getCPP(double income){
+		double cpp = 0.00;
+		
+		return cpp;
+	}
+	
+	
+	
+	
 }
