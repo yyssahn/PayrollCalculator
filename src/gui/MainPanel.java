@@ -320,4 +320,5 @@ public class MainPanel extends Panel {
 		+ (double) this.unionPay.getValue();
 		return totalAmount;
 	}
+	
 }

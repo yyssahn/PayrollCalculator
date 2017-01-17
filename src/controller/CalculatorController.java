@@ -45,7 +45,7 @@ public class CalculatorController implements ActionListener{
 			System.out.println(deductable);
 			double federalTax;
 			federalTax = getFederalTax(getAnnualTaxableIncome(grossIncome)); 
-
+			System.out.println(getCPP(20000, 1.00, 12));
 		}
 	}
 	
@@ -66,15 +66,20 @@ public class CalculatorController implements ActionListener{
 		return totalTax;
 	}
 	
-	private double getEI(double income){
-		double ei = 0.00;
+	private double getEI(double income, double paidSoFar){
+		double ei;
+		double  a= 0.0163 * income;
+		double b = 836.19 - paidSoFar;
+		ei = (Math.min(a, b) > 0) ? Math.min(a, b):0;
 		
 		return ei;
 	}
 	
-	private double getCPP(double income){
-		double cpp = 0.00;
-		
+	public double getCPP(double income, double paidSoFar, double PayPeriods){
+		double a = 2564.10 - paidSoFar;
+		double b = 0.0195 * (income - (3500.0 / PayPeriods));
+		double cpp = Math.min(a, b);
+		cpp = (cpp > 0)? cpp: 0;
 		return cpp;
 	}
 	

@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import controller.CalculatorController;
+
 
 
 public class ControllerTest {
@@ -12,5 +14,10 @@ public class ControllerTest {
 		assertEquals(1,1);
 	
 	}
+	@Test
+	public void getFederalTaxTest(){
+		assertEquals(1,1);
+	}
+	
 
 }
