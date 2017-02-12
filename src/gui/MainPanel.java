@@ -101,19 +101,6 @@ public class MainPanel extends Panel {
 		prppPay.setValue(0.00);
 		prppPay.setPreferredSize(new Dimension(280,20));
 		this.add(prppPay);
-		
-		
-		prppPayLabel = new JLabel("PRPP Pay");
-		prppPayLabel.setPreferredSize(new Dimension(280,20));
-		prppPayLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,10));
-		prppPayLabel.setHorizontalAlignment(JLabel.LEFT);
-		this.add(prppPayLabel);
-		
-		prppPay = getCurrencyTextField();
-		prppPay.setValue(0.00);
-		prppPay.setPreferredSize(new Dimension(280,20));
-		this.add(prppPay);
-
 
 		unionPayLabel = new JLabel("Union Pay");
 		unionPayLabel.setPreferredSize(new Dimension(280,20));
@@ -317,7 +304,7 @@ public class MainPanel extends Panel {
 	public double getDeductables(){
 		double totalAmount;
 		totalAmount = (double) this.rppPay.getValue() + (double) this.prppPay.getValue() + (double) this.rrspPay.getValue()
-		+ (double) this.unionPay.getValue();
+		+ (double) this.unionPay.getValue() + (double) this.otherPay.getValue() + (double) this.alimonyPay.getValue();
 		return totalAmount;
 	}
 	

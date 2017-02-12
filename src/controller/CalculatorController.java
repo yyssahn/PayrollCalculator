@@ -42,10 +42,17 @@ public class CalculatorController implements ActionListener{
 			numPayment = numPayment.getPaymentNumber(mainPanel.getPaymentIndex());
 			double grossIncome = mainPanel.getGrossPay();
 			double deductable = mainPanel.getDeductables();
-			System.out.println(deductable);
+			System.out.println("The gross Income is " + grossIncome);
+			System.out.println("the deductable is " + deductable);
+			double annualTaxableIncome = getAnnualTaxableIncome(grossIncome, deductable);
+			System.out.println("The Annual Taxable income is " + annualTaxableIncome);
 			double federalTax;
-			federalTax = getFederalTax(getAnnualTaxableIncome(grossIncome)); 
-			System.out.println(getCPP(20000, 1.00, 12));
+			double eiSoFar = eiCppPanel.getEi();
+			double cppSoFar = eiCppPanel.getCpp();
+			
+			federalTax = getFederalTax(annualTaxableIncome); 
+			System.out.println("the cpp is " + getCPP(grossIncome, 0.00, numPayment.getNumber()));
+			System.out.println("the ei is " + getEI(2000,0));
 		}
 	}
 	
@@ -53,8 +60,9 @@ public class CalculatorController implements ActionListener{
 	private double getTaxableIncome(){
 		return 0.0;
 	}
-	private double getAnnualTaxableIncome(double income){
-		return numPayment.getNumber() * income;
+	private double getAnnualTaxableIncome(double income, double deductable){
+		double ret = numPayment.getNumber() * (income-deductable);
+		return roundCurrency(ret);
 	}
 	
 	private double getFederalTax(double income){
@@ -72,18 +80,21 @@ public class CalculatorController implements ActionListener{
 		double b = 836.19 - paidSoFar;
 		ei = (Math.min(a, b) > 0) ? Math.min(a, b):0;
 		
-		return ei;
+		return roundCurrency(ei);
 	}
 	
 	public double getCPP(double income, double paidSoFar, double PayPeriods){
 		double a = 2564.10 - paidSoFar;
-		double b = 0.0195 * (income - (3500.0 / PayPeriods));
+		double b = 0.0495 * (income - (3500.0 / PayPeriods));
 		double cpp = Math.min(a, b);
 		cpp = (cpp > 0)? cpp: 0;
-		return cpp;
+		return roundCurrency(cpp);
 	}
 	
 	
-	
+	public double roundCurrency(double currency){
+		return (Math.round(currency * 100.0) / 100.0);
+
+	}
 	
 }

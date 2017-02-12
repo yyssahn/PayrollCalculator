@@ -133,6 +133,9 @@ public class EiCppPanel extends Panel{
 	public JFormattedTextField getEiTextField() {
 		return eiTextField;
 	}
+	public double getEi(){
+		return (double)getEiTextField().getValue();
+	}
 	public void disableEiTextField() {
 		eiTextField.setValue(0.00);
 		eiTextField.setEnabled(false);
@@ -179,7 +182,9 @@ public class EiCppPanel extends Panel{
 	public void setCppTextField(JFormattedTextField cppTextField) {
 		this.cppTextField = cppTextField;
 	}
-
+	public double getCpp(){
+		return (double)getCppTextField().getValue();
+	}
 	private JFormattedTextField getCurrencyTextField(){
 		NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
 		format.setMaximumFractionDigits(2);
