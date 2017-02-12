@@ -51,8 +51,8 @@ public class CalculatorController implements ActionListener{
 			double cppSoFar = eiCppPanel.getCpp();
 			
 			federalTax = getFederalTax(annualTaxableIncome); 
-			System.out.println("the cpp is " + getCPP(grossIncome, 0.00, numPayment.getNumber()));
-			System.out.println("the ei is " + getEI(2000,0));
+			System.out.println("the cpp is " + getCPP(grossIncome, cppSoFar, numPayment.getNumber()));
+			System.out.println("the ei is " + getEI(2000,eiSoFar));
 		}
 	}
 	
