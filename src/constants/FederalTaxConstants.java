@@ -33,17 +33,16 @@ public enum FederalTaxConstants {
 		return this.constant;
 	}
 	
-	public FederalTaxConstants getConstant(double income){
-		
-		if (income <= 0 && income <=45916){
-		return this.ZERO;
-		}else if (income<45916 && income<=91831){
-			return this.ONE;
-		}else if (income<91831 && income<=142353){
-			return this.TWO;
-		}else if (income<142353 && income<=202800){
-			return this.THREE;
-		}else return this.FOUR;
+	public FederalTaxConstants updateConstant(double income){
+		if (income >= 0 && income <=45916){
+			return FederalTaxConstants.ZERO;
+		}else if (income>45916 && income<=91831){
+			return FederalTaxConstants.ONE;
+		}else if (income>91831 && income<=142353){
+			return FederalTaxConstants.TWO;
+		}else if (income>142353 && income<=202800){
+			return FederalTaxConstants.THREE;
+		}else return FederalTaxConstants.FOUR;
 		
 		
 	}

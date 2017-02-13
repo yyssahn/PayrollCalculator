@@ -13,16 +13,24 @@ import constants.BCClaimCodes;
 import constants.FederalClaimCodes;
 import constants.FederalTaxConstants;
 import constants.PaymentNumber;
+import constants.ProvincialTaxConstants;
 
 public class CalculatorController implements ActionListener{
-	MainPanel mainPanel;
-	EiCppPanel eiCppPanel;
-	ClaimPanel claimPanel;
+	private MainPanel mainPanel;
+	private EiCppPanel eiCppPanel;
+	private ClaimPanel claimPanel;
 
-	FederalClaimCodes federalCode;
-	BCClaimCodes provincialCode;
-	FederalTaxConstants federalTax;
-	PaymentNumber numPayment;
+	private FederalClaimCodes federalCode;
+	private BCClaimCodes provincialCode;
+	private FederalTaxConstants federalTaxConstant;
+	private ProvincialTaxConstants provincialTaxConstant;
+	private PaymentNumber numPayment;
+	private boolean eiMax;
+	private boolean eiExempt;
+	private boolean cppMax;
+	private boolean cppExempt;
+	private double cpp;
+	private double ei;
 	public CalculatorController(MainPanel main, EiCppPanel eicpp, ClaimPanel claim){
 		mainPanel = main;
 		eiCppPanel = eicpp;
@@ -31,7 +39,8 @@ public class CalculatorController implements ActionListener{
 		federalCode = FederalClaimCodes.ZERO;
 		provincialCode = BCClaimCodes.ZERO;
 		numPayment = PaymentNumber.WEEKLY;
-		federalTax = FederalTaxConstants.ZERO;
+		federalTaxConstant = FederalTaxConstants.ZERO;
+		provincialTaxConstant = ProvincialTaxConstants.ZERO;
 	}
 	@Override
 	public void actionPerformed(ActionEvent event) {
@@ -47,31 +56,104 @@ public class CalculatorController implements ActionListener{
 			double annualTaxableIncome = getAnnualTaxableIncome(grossIncome, deductable);
 			System.out.println("The Annual Taxable income is " + annualTaxableIncome);
 			double federalTax;
-			double eiSoFar = eiCppPanel.getEi();
-			double cppSoFar = eiCppPanel.getCpp();
-			
-			federalTax = getFederalTax(annualTaxableIncome); 
-			System.out.println("the cpp is " + getCPP(grossIncome, cppSoFar, numPayment.getNumber()));
-			System.out.println("the ei is " + getEI(2000,eiSoFar));
+			double eiSoFar;
+			federalTaxConstant = federalTaxConstant.updateConstant(annualTaxableIncome);
+			provincialTaxConstant = provincialTaxConstant.updateConstant(annualTaxableIncome);
+			eiMax = eiCppPanel.getEiMaxCheckBox().isSelected();
+			eiExempt = eiCppPanel.getEiExemptCheckBox().isSelected();
+			if (eiMax || eiExempt){
+				eiSoFar = 0.0;
+			} else {
+			eiSoFar = eiCppPanel.getEi();
+			ei = getEI(grossIncome, eiSoFar);
+			}
+			double cppSoFar;
+			cppMax = eiCppPanel.getCppMaxCheckBox().isSelected();
+			cppExempt = eiCppPanel.getCppExemptCheckBox().isSelected();
+			if (cppMax || cppExempt){
+				cppSoFar = 0.0;
+			}else{
+				cppSoFar = eiCppPanel.getCpp();
+				cpp = getCPP(grossIncome, cppSoFar, numPayment.getNumber());
+			}
+			federalTax = getFederalTax(annualTaxableIncome, federalCode, cpp, ei); 
+			double provincialTax;
+			provincialTax = getProvincialTax(annualTaxableIncome, provincialCode, cpp, ei);
+			System.out.println("the cpp is " + cpp);
+			System.out.println("the ei is " + ei);
+			System.out.println("the basic Federal tax is " + federalTax);
+			System.out.println("the basic Provincial tax is " + provincialTax);
+			JOptionPane.showMessageDialog(mainPanel, "The basic \n fdsfs", 
+					
+					
+					
+					"Result", JOptionPane.PLAIN_MESSAGE);
 		}
 	}
 	
 	
+	private double getProvincialTax(double annualTaxableIncome, BCClaimCodes provincialCode, double cpp, double ei) {
+		// TODO Auto-generated method stub
+		double provincialTax, totalProvincialTax;
+		double k1P = 0.0506 * provincialCode.getTC();
+		double k2P, k2PCpp, k2PEi;
+		if (cppMax){
+			k2PCpp =roundCurrency(2564.1 *0.0506);
+		}else if(cppExempt){
+			k2PCpp = 0.0;
+		}else{
+			k2PCpp = roundCurrency(0.0506*Math.min((numPayment.getNumber()*cpp), 2564.10));
+		}
+		if  (eiMax){
+			k2PEi = roundCurrency(836.19 *0.0506);
+		}else if (eiExempt){
+			k2PEi = 0.0;
+		}else{
+			k2PEi = roundCurrency(0.0506*Math.min((numPayment.getNumber()*ei), 836.19));
+		}
+		k2P = k2PCpp+ k2PEi;
+
+		totalProvincialTax =  (annualTaxableIncome * provincialTaxConstant.getRate()) - provincialTaxConstant.getConstant() - k1P - k2P;
+		provincialTax = roundCurrency(totalProvincialTax / numPayment.getNumber());
+		return provincialTax;
+		
+		
+	}
 	private double getTaxableIncome(){
 		return 0.0;
 	}
 	private double getAnnualTaxableIncome(double income, double deductable){
 		double ret = numPayment.getNumber() * (income-deductable);
+		System.out.println("income" + income);
+		System.out.println("deductable" + deductable);
 		return roundCurrency(ret);
 	}
 	
-	private double getFederalTax(double income){
-		federalTax = federalTax.getConstant(income);
-		double totalTax = (income * federalTax.getRate()) - federalTax.getConstant();
+	private double getFederalTax(double income, FederalClaimCodes TC, double cpp, double ei){
+		double totalTax = (income * federalTaxConstant.getRate()) - federalTaxConstant.getConstant();
 		
-		
-		
-		return totalTax;
+		double k1 = TC.getTC() *0.15;
+		double k2;
+		double k2Cpp;
+		double k2Ei;
+		if (cppMax){
+			k2Cpp =roundCurrency(2564.1 *0.15);
+		}else if(cppExempt){
+			k2Cpp = 0.0;
+		}else{
+			k2Cpp = roundCurrency(0.15*Math.min((numPayment.getNumber()*cpp), 2564.10));
+		}
+		if  (eiMax){
+			k2Ei = roundCurrency(836.19 *0.15);
+		}else if (eiExempt){
+			k2Ei = 0.0;
+		}else{
+			k2Ei = roundCurrency(0.15*Math.min((numPayment.getNumber()*ei), 836.19));
+		}
+		k2 = k2Cpp+ k2Ei;
+		double k4 =  Math.min(0.15* income, 0.15*1178.0);
+		double basicFederalTax =roundCurrency( (totalTax - k1 - k2 - k4)/numPayment.getNumber());
+		return basicFederalTax;
 	}
 	
 	private double getEI(double income, double paidSoFar){
