@@ -9,7 +9,6 @@ public class Controller {
 		
 		MainPage mp = new MainPage();
 		
-		System.out.println("hello");
 	}
 	
 	

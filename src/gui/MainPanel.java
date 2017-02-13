@@ -65,19 +65,6 @@ public class MainPanel extends Panel {
 		
 		createGrossPay();
 		
-		bonusPayLabel = new JLabel("Bonus");
-		bonusPayLabel.setPreferredSize(new Dimension(280,20));
-		bonusPayLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,10));
-		bonusPayLabel.setHorizontalAlignment(JLabel.LEFT);
-		this.add(bonusPayLabel);
-		
-		bonusPay = getCurrencyTextField();
-		bonusPay.setValue(0.00);
-		bonusPay.setPreferredSize(new Dimension(280,20));
-		this.add(bonusPay);
-	
-		
-		
 		createrrsp();
 		
 		rppPayLabel = new JLabel("RPP Pay");

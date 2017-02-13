@@ -24,7 +24,7 @@ public enum FederalClaimCodes {
 	
 	public double getTC(){
 		return this.tcamount;
-	}
+	}	
 	public double getK1(){
 		return this.k1amount;
 	}

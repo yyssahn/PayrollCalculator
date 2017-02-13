@@ -29,8 +29,8 @@ public class CalculatorController implements ActionListener{
 	private boolean eiExempt;
 	private boolean cppMax;
 	private boolean cppExempt;
-	private double cpp;
-	private double ei;
+	private double cpp, ei, eiSoFar, cppSoFar; 
+	private double taxableIncome, grossIncome,deductable,annualTaxableIncome, federalTax, provincialTax;
 	public CalculatorController(MainPanel main, EiCppPanel eicpp, ClaimPanel claim){
 		mainPanel = main;
 		eiCppPanel = eicpp;
@@ -46,49 +46,70 @@ public class CalculatorController implements ActionListener{
 	public void actionPerformed(ActionEvent event) {
 		// TODO Auto-generated method stub
 		if (event.getSource() == mainPanel.getCalculateButton()){
-			federalCode = federalCode.getCode(claimPanel.getFederalIndex());
-			provincialCode = provincialCode.getCode(claimPanel.getProvincialIndex());
-			numPayment = numPayment.getPaymentNumber(mainPanel.getPaymentIndex());
-			double grossIncome = mainPanel.getGrossPay();
-			double deductable = mainPanel.getDeductables();
-			System.out.println("The gross Income is " + grossIncome);
-			System.out.println("the deductable is " + deductable);
-			double annualTaxableIncome = getAnnualTaxableIncome(grossIncome, deductable);
-			System.out.println("The Annual Taxable income is " + annualTaxableIncome);
-			double federalTax;
-			double eiSoFar;
-			federalTaxConstant = federalTaxConstant.updateConstant(annualTaxableIncome);
-			provincialTaxConstant = provincialTaxConstant.updateConstant(annualTaxableIncome);
-			eiMax = eiCppPanel.getEiMaxCheckBox().isSelected();
-			eiExempt = eiCppPanel.getEiExemptCheckBox().isSelected();
-			if (eiMax || eiExempt){
-				eiSoFar = 0.0;
-			} else {
+			updateConstants();
+			calculateIncome();
+			calculateEI();
+			calculateCPP();
+			calculateFederalTax(); 
+			calculateProvincialTax();
+			showResult();
+		}
+	}
+	private void showResult() {
+		JOptionPane.showMessageDialog(mainPanel, "Income during time period : " + grossIncome+
+				"\nTaxable Income for time period" + taxableIncome + 
+				"\nFederal Tax Deduction : " + federalTax + 
+				"\nProvincial Tax Deduction : " + provincialTax + 
+				"\nCPP deduction : " + cpp + 
+				"\nEI deduction : " + ei + 
+				"\nNet Amount : " + roundCurrency(taxableIncome - federalTax - provincialTax - cpp - ei)				
+				,"Result", JOptionPane.PLAIN_MESSAGE);
+	}
+	private void calculateProvincialTax() {
+		provincialTaxConstant = provincialTaxConstant.updateConstant(annualTaxableIncome);
+		provincialTax = getProvincialTax(annualTaxableIncome, provincialCode, cpp, ei);
+	}
+	private void calculateFederalTax() {
+		federalTaxConstant = federalTaxConstant.updateConstant(annualTaxableIncome);
+		federalTax = getFederalTax(annualTaxableIncome, federalCode, cpp, ei);
+	}
+	private void calculateCPP() {
+		if (cppMax){
+			cppSoFar =2564.10;
+			cpp = getCPP(grossIncome,cppSoFar, numPayment.getNumber());
+		}else if(cppExempt){
+			cpp = 0.0;
+		}
+		else{
+			cppSoFar = eiCppPanel.getCpp();
+			cpp = getCPP(grossIncome, cppSoFar, numPayment.getNumber());
+		}
+	}
+	private void calculateEI() {
+		if (eiMax){
+			eiSoFar = 836.19;
+			ei = getEI(grossIncome, eiSoFar);
+		} else if(eiExempt){
+			ei = 0;
+		}else {
 			eiSoFar = eiCppPanel.getEi();
 			ei = getEI(grossIncome, eiSoFar);
-			}
-			double cppSoFar;
-			cppMax = eiCppPanel.getCppMaxCheckBox().isSelected();
-			cppExempt = eiCppPanel.getCppExemptCheckBox().isSelected();
-			if (cppMax || cppExempt){
-				cppSoFar = 0.0;
-			}else{
-				cppSoFar = eiCppPanel.getCpp();
-				cpp = getCPP(grossIncome, cppSoFar, numPayment.getNumber());
-			}
-			federalTax = getFederalTax(annualTaxableIncome, federalCode, cpp, ei); 
-			double provincialTax;
-			provincialTax = getProvincialTax(annualTaxableIncome, provincialCode, cpp, ei);
-			System.out.println("the cpp is " + cpp);
-			System.out.println("the ei is " + ei);
-			System.out.println("the basic Federal tax is " + federalTax);
-			System.out.println("the basic Provincial tax is " + provincialTax);
-			JOptionPane.showMessageDialog(mainPanel, "The basic \n fdsfs", 
-					
-					
-					
-					"Result", JOptionPane.PLAIN_MESSAGE);
 		}
+	}
+	private void calculateIncome() {
+		grossIncome = mainPanel.getGrossPay();
+		deductable = mainPanel.getDeductables();
+		annualTaxableIncome = getAnnualTaxableIncome(grossIncome, deductable);
+		taxableIncome = roundCurrency(annualTaxableIncome/ numPayment.getNumber());
+	}
+	private void updateConstants() {
+		federalCode = federalCode.getCode(claimPanel.getFederalIndex());
+		provincialCode = provincialCode.getCode(claimPanel.getProvincialIndex());
+		numPayment = numPayment.getPaymentNumber(mainPanel.getPaymentIndex());
+		eiMax = eiCppPanel.getEiMaxCheckBox().isSelected();
+		eiExempt = eiCppPanel.getEiExemptCheckBox().isSelected();
+		cppMax = eiCppPanel.getCppMaxCheckBox().isSelected();
+		cppExempt = eiCppPanel.getCppExemptCheckBox().isSelected();
 	}
 	
 	
@@ -124,8 +145,6 @@ public class CalculatorController implements ActionListener{
 	}
 	private double getAnnualTaxableIncome(double income, double deductable){
 		double ret = numPayment.getNumber() * (income-deductable);
-		System.out.println("income" + income);
-		System.out.println("deductable" + deductable);
 		return roundCurrency(ret);
 	}
 	
